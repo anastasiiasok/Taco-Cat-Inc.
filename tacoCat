@@ -1,0 +1,50 @@
+let tacoCatInc = {
+  gourmetShell: {
+    'hard treat shell': {cost: 2, quantity: 100},
+    'soft treat shell': {cost: 1.5, quantity: 100}
+  },
+  gourmetFishFilling: {
+    'salmon': {cost: 5, quantity: 100},
+    'tuna': {cost: 5.5, quantity: 100},
+    'sardines': {cost: 1.5, quantity: 100}
+  },
+  gourmetVeggie: {
+    'cat grass': {cost: 1, quantity: 100}
+  },
+  gourmetSeasoning: {
+    'cat nip': {cost: 0.5, quantity: 100},
+    'treat dust': {cost: 0.1, quantity: 100}
+  },
+  cash: 0,
+  currentInventory: function (){
+    let inventory = 0;
+    for (let key in tacoCatInc){
+      if (typeof this[key] !== "function" && key!== "cash"){
+        for (let key2 in this[key]) {
+          inventory = inventory + 
+                      (this[key][key2]["quantity"] * this[key][key2]["cost"]);
+        }       
+      }
+    }
+    return inventory;
+  },
+  sale: function (order){
+    let price = 0;
+    for (let item in order){
+      for (let menuItem in tacoCatInc[item]){
+        if (order[item] === menuItem){
+          price += tacoCatInc[item][menuItem]["cost"];
+          tacoCatInc[item][menuItem]["quantity"] -= 1;
+        } 
+      }
+    }
+    tacoCatInc["cash"] += price;
+    return price;
+  }
+};
+
+
+
+
+
+
